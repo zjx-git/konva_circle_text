@@ -21,10 +21,11 @@
   				a ${Math.abs(radius)} ${Math.abs(radius)} 0 1 ${radius > 0 ? 1 : 0} 1 0
         `;
 
-        text.y(Number(radius) + 250);
+        //text.y(Number(radius) + 250);
+        // text.offsetX(Number(radius));
+        text.offsetY(-Number(radius));
         console.log(text.y());
         text.data(path);
-        layer.batchDraw(); // 使用 batchDraw 提高性能
       };
 
       const stage = new Konva.Stage({
@@ -36,19 +37,22 @@
       const layer = new Konva.Layer();
 
       const radius = 500;
-      const PATH = `M 0 ${radius} a ${Math.abs(radius)} ${Math.abs(radius)} 0 1 ${
-        radius > 0 ? 1 : 0
-      } 1 0`;
+      const PATH = `M 0 ${radius} a ${Math.abs(radius)} ${Math.abs(
+        radius
+      )} 0 1 ${radius > 0 ? 1 : 0} 1 0`;
 
       const text = new Konva.TextPath({
         x: 250,
-        y: 250 + radius,
+        y: 250,
         fill: "#000",
         fontSize: 15,
         fontFamily: "Calibri",
+        // offsetX: radius,
+        offsetY: -radius,
         letterSpacing: 4,
         text: "这是一段很长很长的文字演示demo",
         align: "center",
+				draggable: true,
         data: PATH,
       });
       layer.add(text);
