@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/konva@9.3.16/konva.min.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <input min="-3.5" max="3.5" step="0.2" id="range" type="range" />
+    <div id="container"></div>
+    <script>
+      const range = document.querySelector("#range");
+      range.oninput = () => {
+        let radius = 100 / range.value;
+
+        const path = `
+          M 0 ${radius}
+  				a ${Math.abs(radius)} ${Math.abs(radius)} 0 1 ${radius > 0 ? 1 : 0} 1 0
+  				a ${Math.abs(radius)} ${Math.abs(radius)} 0 1 ${radius > 0 ? 1 : 0} 1 0
+  				a ${Math.abs(radius)} ${Math.abs(radius)} 0 1 ${radius > 0 ? 1 : 0} 1 0
+        `;
+
+        text.y(Number(radius) + 250);
+        console.log(text.y());
+        text.data(path);
+        layer.batchDraw(); // 使用 batchDraw 提高性能
+      };
+
+      const stage = new Konva.Stage({
+        container: "container",
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+
+      const layer = new Konva.Layer();
+
+      const radius = 500;
+      const PATH = `M 0 ${radius} a ${Math.abs(radius)} ${Math.abs(radius)} 0 1 ${
+        radius > 0 ? 1 : 0
+      } 1 0`;
+
+      const text = new Konva.TextPath({
+        x: 250,
+        y: 250 + radius,
+        fill: "#000",
+        fontSize: 15,
+        fontFamily: "Calibri",
+        letterSpacing: 4,
+        text: "这是一段很长很长的文字演示demo",
+        align: "center",
+        data: PATH,
+      });
+      layer.add(text);
+
+      const tr = new Konva.Transformer();
+      layer.add(tr);
+      stage.on("click", (e) => {
+        if (stage === e.target) {
+          return tr.nodes([]);
+        }
+        tr.nodes([e.target]);
+      });
+
+      stage.add(layer);
+      layer.draw();
+    </script>
+  </body>
+</html>
